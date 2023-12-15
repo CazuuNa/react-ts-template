@@ -1,0 +1,34 @@
+.discover-page {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 0 5%;
+    &-carousel {
+        // width: 480px;
+        max-width: 800px;
+        box-sizing: border-box;
+        padding: 20px 10px;
+        margin: 0 auto;
+        .ant-carousel {
+            flex: 1;
+            max-width: 100%;
+        }
+        &-item {
+            box-sizing: border-box;
+            padding-bottom: 30px;
+            position: relative;
+            &-title {
+                width: 100%;
+                position: absolute;
+                bottom: 30px;
+                background-color: rgba(0, 0, 0, 0.2);
+                color: #fff;
+                font-size: 12px;
+                display: flex;
+                justify-content: flex-end;
+                padding: 2px 4px;
+            }
+        }
+    }
+}
