@@ -3,12 +3,18 @@ import { Layout, theme, ConfigProvider, Button } from 'antd';
 import './index.less';
 import { test } from '@/api/common';
 import { useLocation } from 'react-router-dom';
-
-const { Header, Content, Sider, Footer } = Layout;
+import { BgColorsOutlined } from '@ant-design/icons'
+import { observer } from 'mobx-react-lite'
+import mainStore from '@/store/mainStore'
+import moment from 'moment'
 
 const prefixCls = 'ex-page';
 
 const ExPage: React.FC = () => {
+    const {
+		data: { playData },
+		changePlayData
+	} = mainStore
     console.log(useLocation());
     const isData = useRef(false);
     useEffect(() => {

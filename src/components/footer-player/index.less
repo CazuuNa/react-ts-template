@@ -1,0 +1,30 @@
+.footer-player-page {
+	height: 80px;
+	box-sizing: border-box;
+	padding: 4px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	&-title {
+		width: 10%;
+		display: flex;
+		align-items: center;
+		&-name {
+			flex: 1;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+		}
+	}
+	&-progress {
+		flex: 1;
+		box-sizing: border-box;
+		padding: 0 20px;
+	}
+	&-menu {
+		width: 10%;
+		display: flex;
+	}
+}

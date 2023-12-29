@@ -1,0 +1,16 @@
+.song-list-table {
+	&-name {
+		width: 100%;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		&-title {
+            max-width: 100%;
+			overflow: hidden; //超出的文本隐藏
+			text-overflow: ellipsis; //溢出用省略号显示
+			white-space: nowrap; //溢出不换行
+            box-sizing: border-box;
+            padding-right: 5px;
+		}
+	}
+}
