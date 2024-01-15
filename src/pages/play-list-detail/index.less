@@ -1,3 +1,37 @@
-.ex-page {
-
+.paly-list-detail-page {
+    overflow-y: auto;
+    &-top {
+        height: 300px;
+        padding: 10px;
+        display: flex;
+        &-content {
+            flex: 1;
+            padding: 0 10px;
+            display: flex;
+            flex-direction: column;
+            &-title {
+                width: 100%;
+                font-size: 24px;
+                font-weight: bold;
+                padding: 4px;
+            }
+            &-create {
+                width: 100%;
+                padding: 4px;
+                font-size: 14px;
+            }
+            &-control {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                padding: 4px;
+            }
+            &-tag_song {
+                width: 100%;
+                padding: 4px;
+                font-size: 14px;
+                color: rgba(0,0,0,0.4);
+            }
+        }
+    }
 }

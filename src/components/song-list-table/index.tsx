@@ -25,6 +25,8 @@ const SongListTable: React.FC<songListTableProps> = (props) => {
 				dataSource={dataSource}
 				columns={columns}
 				{...resetProps}
+				rowClassName={(record,i) => (i % 2 === 1 ? 'table-even' : 'table-odd')}
+				size="middle"
 			></Table>
 			<div id="rightMenu"></div>
 		</Fragment>

@@ -3,7 +3,12 @@ import { Slider } from 'antd'
 import './index.less'
 import { test } from '@/api/common'
 import { useLocation } from 'react-router-dom'
-import { BgColorsOutlined } from '@ant-design/icons'
+import {
+	VerticalRightOutlined,
+	VerticalLeftOutlined,
+	PauseCircleOutlined,
+	PlayCircleOutlined
+} from '@ant-design/icons'
 import { observer } from 'mobx-react-lite'
 import mainStore from '@/store/mainStore'
 import moment from 'moment'
@@ -14,15 +19,48 @@ interface IProps {
 	sliderValue: number
 	changeDt: (e: any) => void
 	dt: number | undefined
+	isPlay: boolean
+	playNextSong: (e: any) => void
+	playPrevSong: (e: any) => void
+	playPauseSong: (e: any) => void
+	playContinueSong: (e: any) => void
 }
 
 const playerProgressPage: React.FC<IProps> = (props) => {
-	const { sliderValue, dt, changeDt } = props
-	console.log(sliderValue)
+	const {
+		sliderValue,
+		dt,
+		isPlay,
+		changeDt,
+		playNextSong,
+		playPrevSong,
+		playPauseSong,
+		playContinueSong
+	} = props
 
 	return (
 		<div className={`${prefixCls}`}>
-			<div className={`${prefixCls}-controls`}></div>
+			<div className={`${prefixCls}-controls`}>
+				<VerticalRightOutlined
+					onClick={playPrevSong}
+					className={`${prefixCls}-controls-icon`}
+				/>
+				{isPlay ? (
+					<PauseCircleOutlined
+						onClick={playPauseSong}
+						className={`${prefixCls}-controls-icon`}
+					/>
+				) : (
+					<PlayCircleOutlined
+						onClick={playContinueSong}
+						className={`${prefixCls}-controls-icon`}
+					/>
+				)}
+				<VerticalLeftOutlined
+					onClick={playNextSong}
+					className={`${prefixCls}-controls-icon`}
+				/>
+			</div>
 			<div className={`${prefixCls}-progress`}>
 				<div className={`${prefixCls}-progress-time`}>
 					{moment(sliderValue).format('mm:ss')}

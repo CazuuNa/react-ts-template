@@ -75,7 +75,9 @@ declare module '*.less' {
 	const less: any
 	export default less
 }
-declare module "loadsh" {
-  import * as loadsh from 'loadsh'
-  export default loadsh
+declare module "lodash" {
+  import * as lodash from 'lodash'
+  export default lodash
 }
+
+declare module 'react-router-dom6-keepalive'

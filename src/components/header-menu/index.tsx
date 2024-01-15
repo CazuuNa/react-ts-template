@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { ColorPicker } from 'antd'
+import { ColorPicker, Input, Select } from 'antd'
 import './index.less'
 import { useLocation } from 'react-router-dom'
 import { BgColorsOutlined } from '@ant-design/icons'
 import type { Color, ColorPickerProps } from 'antd/es/color-picker'
-
+import DebounceSelectPage from '../debounce-select'
 const prefixCls = 'header-page'
 
 interface headerProps {
@@ -13,14 +13,17 @@ interface headerProps {
 }
 
 const HeaderPage: React.FC<headerProps> = (props) => {
-	console.log(props)
 
 	const { changePrimaryColor, colorPrimary } = props
-	console.log(useLocation())
 
 	const [formatHex, setFormatHex] = useState<ColorPickerProps['format']>('hex')
+	const [keyword,setKeyword] = useState<string>('')
 	const changeColor = (e: any) => {
 		changePrimaryColor(e.toHexString())
+	}
+
+	const changeKeyword = (e:any) => {
+
 	}
 
 	return (
@@ -52,6 +55,8 @@ const HeaderPage: React.FC<headerProps> = (props) => {
 			>
 				<BgColorsOutlined style={{ color: '#fff', fontSize: 20 }} />
 			</ColorPicker>
+
+			<DebounceSelectPage />
 		</div>
 	)
 }

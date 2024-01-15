@@ -1,10 +1,11 @@
 import { makeAutoObservable } from 'mobx'
-import cloneDeep from 'loadsh'
+// import cloneDeep from 'loadsh'
+import _ from 'lodash'
 
 //音乐播放管理
 class PlayerStore {
 	public currPlaySong: API.Song | null = null //当前正在播放音乐
-	private playQueue: API.Song[] = [] //播放列表
+	public playQueue: API.Song[] = [] //播放列表
 	private currPlayIndex: number = -1 //当前正在播放音乐下标
 
 	constructor() {
@@ -21,6 +22,15 @@ class PlayerStore {
 	}
 
 	/**
+	 * 初始化数据
+	 */
+	public initPlayerStore() {
+		this.currPlaySong = null
+		this.playQueue = []
+		this.currPlayIndex = -1
+	}
+
+	/**
 	 * 是否存在正在播放列表
 	 * @return 有则返回下标无返回-1
 	 */
@@ -33,7 +43,19 @@ class PlayerStore {
 	 */
 
 	public changePlayQueue(songs: Array<API.Song>) {
-		this.playQueue = cloneDeep(songs)
+		console.log(songs)
+
+		// this.playQueue = [...songs]
+		this.playQueue = _.cloneDeep(songs)
+		// const proto = Object.getPrototypeOf(this.playQueue)
+		// console.log(proto.constructor);
+		
+		console.log(this.playQueue[0])
+		console.log(this.playQueue)
+
+		localStorage.setItem('player-queue', JSON.stringify(songs))
+		this.currPlayIndex = 0
+		this.currPlaySong = songs[0]
 	}
 
 	/** 临时播放当前音乐 */
@@ -53,14 +75,18 @@ class PlayerStore {
 
 	/** 上一首 */
 	prevSong() {
-		this.currPlayIndex =
-			(this.currPlayIndex - 1 + this.playQueue.length) % this.playQueue.length
-		this.currPlaySong = this.playQueue[this.currPlayIndex]
+		if (this.playQueue.length > 1) {
+			this.currPlayIndex =
+				(this.currPlayIndex - 1 + this.playQueue.length) % this.playQueue.length
+			this.currPlaySong = this.playQueue[this.currPlayIndex]
+		}
 	}
 	/** 下一首 */
 	nextSong() {
-		this.currPlayIndex = (this.currPlayIndex + 1) % this.playQueue.length
-		this.currPlaySong = this.playQueue[this.currPlayIndex]
+		if (this.playQueue.length > 1) {
+			this.currPlayIndex = (this.currPlayIndex + 1) % this.playQueue.length
+			this.currPlaySong = this.playQueue[this.currPlayIndex]
+		}
 	}
 }
 

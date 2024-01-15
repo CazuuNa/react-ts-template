@@ -7,7 +7,6 @@ import {useLocation} from 'react-router-dom';
 const prefixCls = 'menu-page';
 
 const MenutPage: React.FC = () => {
-    console.log(useLocation());
     
     const defaultMenu:any[] = [
         {
@@ -60,9 +59,9 @@ const MenutPage: React.FC = () => {
     return <div className={`box ${prefixCls}`}>
         <div className={`${prefixCls}-main`}>
             {
-                mainMenuList.map(menu => {
+                mainMenuList.map((menu,index) => {
                     return (
-                        <div key={menu.key} className={`font-14 ${prefixCls}-main-item ${menuActive == menu.key ? prefixCls + '-main-item-active' : ''}`}>{menu.title}</div>
+                        <div key={index} className={`font-14 ${prefixCls}-main-item ${menuActive == menu.key ? prefixCls + '-main-item-active' : ''}`}>{menu.title}</div>
                     )
                 })
             }

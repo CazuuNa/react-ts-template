@@ -7,6 +7,14 @@ const test = () => {
     });
 };
 
+//搜索建议（包含单曲，歌手，歌单）
+const getSearchSuggest = (keywords:string) => {
+    return axios({
+        url: `/search/suggest?keywords=${keywords}`,
+        method: 'GET',
+    })
+}
+
 //banner图获取
 const getBanner = () => {
     return axios({
@@ -26,9 +34,12 @@ const getPersonalized = () => {
 //歌单详情
 const getPlayListDetail = (id:number | string) => {
     return axios({
-        url: `/playlist/detail?id=${id}`,
-        method: 'GET',
+        url: `/playlist/detail`,
+        method: 'POST',
+        data:{
+            id
+        }
     });
 }
 
-export { test, getBanner,getPersonalized,getPlayListDetail };
+export { test, getSearchSuggest,getBanner,getPersonalized,getPlayListDetail };

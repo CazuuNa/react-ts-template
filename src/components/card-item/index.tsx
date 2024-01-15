@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Layout, theme, ConfigProvider, Button,Image } from 'antd'
+import { Layout, theme, ConfigProvider, Button, Image } from 'antd'
 import { formatNumber } from '@/utils/index'
 import './index.less'
 
@@ -26,9 +26,15 @@ const CardItemPage: React.FC<cardItemProps> = (props) => {
 			{type === 'border' ? (
 				<div className={`${prefixCls}-${type}-main`}>
 					<div className={`${prefixCls}-${type}-main-img`}>
-						<Image style={{
-                            borderRadius:"6px"
-                        }} src={picUrl} />
+						<Image
+							style={{
+								borderRadius: '6px',
+								width: '100%',
+								paddingBottom: '50%'
+							}}
+							src={picUrl}
+							preview={false}
+						/>
 						<div className={`${prefixCls}-${type}-main-img-num`}>
 							{formatNumber(playCount)}
 						</div>

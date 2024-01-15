@@ -41,7 +41,7 @@ const DiscoverPage: React.FC = () => {
 										key={banner?.targetId}
                                         
 									>
-										<Image width='100%' src={banner?.imageUrl} />
+										<Image width='100%'  src={banner?.imageUrl} />
 										<div className={`${prefixCls}-carousel-item-title`}>
 											<div
 												className="box-border rounded-[4px] px-[4px]"

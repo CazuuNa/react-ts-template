@@ -1,26 +1,32 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react'
-import { Layout, Tag, Tooltip } from 'antd'
+import { Tag, Tooltip, Button, Image, Spin } from 'antd'
 import './index.less'
 import { getPlayListDetail } from '@/api/common'
 import { useLocation } from 'react-router-dom'
 import SongListTable from '@/components/song-list-table'
-import { PlayCircleOutlined } from '@ant-design/icons'
+import { PlayCircleOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { observer } from 'mobx-react-lite'
 import mainStore from '@/store/mainStore'
+import useStores from '@/store/index'
 import moment from 'moment'
 
 const prefixCls = 'paly-list-detail-page'
 
 const PlayListDetailPage: React.FC = () => {
-    const {changePlayData} = mainStore
+	const { playerStore } = useStores()
+	const { changePlayData } = mainStore
 	console.log(useLocation())
 	const { state } = useLocation()
+	//页面loading
+	const [loading, setLoading] = useState<boolean>(true)
 	//详情数据-playlist
-	const [playlist, setPlaylist] = useState<object>({})
+	const [playlist, setPlaylist] = useState<API.PlayListDetail>({
+		name: ''
+	})
 	//特权数据
 	const [privileges, setPrivileges] = useState<object[]>([])
 	//歌单列表数据
-	const [dataSource, SetDataSource] = useState<object[]>([])
+	const [dataSource, SetDataSource] = useState<Array<API.Song>>([])
 
 	const isData = useRef(false)
 	useEffect(() => {
@@ -31,11 +37,12 @@ const PlayListDetailPage: React.FC = () => {
 		}
 	}, [])
 
-    const playItem = (record:any) => {
-        console.log(record);
-        
-        changePlayData(record)
-    }
+	const playItem = (record: any) => {
+		console.log(record)
+
+		changePlayData(record)
+		playerStore.changePlayQueue([record] || [])
+	}
 
 	const getColumns = () => {
 		return [
@@ -46,7 +53,12 @@ const PlayListDetailPage: React.FC = () => {
 				render: (text: any, record: any, index: any) => {
 					return (
 						<Fragment>
-							<PlayCircleOutlined onClick={() => {playItem(record)}} style={{ fontSize: '20px', color: '#ccc' }} />
+							<PlayCircleOutlined
+								onClick={() => {
+									playItem(record)
+								}}
+								style={{ fontSize: '20px', color: '#ccc' }}
+							/>
 						</Fragment>
 					)
 				}
@@ -109,29 +121,68 @@ const PlayListDetailPage: React.FC = () => {
 		const data: any = await getPlayListDetail(id)
 		setPlaylist(data?.playlist)
 		setPrivileges(data?.privileges)
-		// const newTracks = data?.playlist?.tracks?.map(v => {
-		//     return {
-		//         name:v.name,
-		//         ar
-		//     }
-		// })
 		SetDataSource(data?.playlist?.tracks)
+		setLoading(false)
 		console.log(data)
 	}
+
+	//保存歌单
+	const savePlayList = () => {
+		playerStore.changePlayQueue(dataSource)
+	}
+
 	return (
-		<div className={`box ${prefixCls}`}>
-			<SongListTable
-				columns={getColumns()}
-				dataSource={dataSource}
-				resetProps={{
-					scroll: { x: '100%', y: 'calc(100vh - 280px)' },
-					pagination: {
-						defaultPageSize: 20,
-						pageSizeOptions: [20, 50, 100]
-					}
-				}}
-			/>
-		</div>
+		<Fragment>
+			{loading ? (
+				<Spin spinning={loading}></Spin>
+			) : (
+				<div className={`box ${prefixCls}`}>
+					<div className={` ${prefixCls}-top`}>
+						<Image src={playlist?.coverImgUrl} height={280} width={280} />
+						<div className={` ${prefixCls}-top-content`}>
+							<div className={` ${prefixCls}-top-content-title`}>{playlist?.name}</div>
+							<div className={` ${prefixCls}-top-content-create`}>
+								<Button type='link'>{playlist?.creator?.nickname}</Button>
+								{moment(playlist?.createTime).format("YYYY-MM-DD")}创建
+							</div>
+							<div className={` ${prefixCls}-top-content-control`}>
+								<Button
+									onClick={savePlayList}
+									type="primary"
+									icon={<CaretRightOutlined />}
+								>
+									播放全部
+								</Button>
+							</div>
+							<div className={` ${prefixCls}-top-content-tag_song`}>
+								标签:{
+									playlist?.tags?.map((v,index) => {
+										return (
+											<Button type='link' key={index}>{v}</Button>
+										)
+									})
+								}
+							</div>
+							<div className={` ${prefixCls}-top-content-tag_song`}>
+								歌曲:{playlist?.trackCount}
+							</div>
+							<div className={` ${prefixCls}-top-content-tag_song`}>
+								简介:{playlist?.description}
+							</div>
+						</div>
+					</div>
+					<SongListTable
+						columns={getColumns()}
+						dataSource={dataSource}
+						resetProps={{
+							rowKey:'id',
+							pagination: false,
+							sticky:true
+						}}
+					/>
+				</div>
+			)}
+		</Fragment>
 	)
 }
 
