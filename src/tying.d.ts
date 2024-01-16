@@ -56,4 +56,8 @@ declare namespace API {
         createTime?:number;//创建时间
         creator?:CreatorInfo
     }
+
+    type test = {
+        name?:string
+    }
 }
